@@ -99,6 +99,8 @@ class AdController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
 
+            // $ad->setSlug(""); //modifier l'url de la page par rapport au titre de l'annonce
+
               // gestion des images 
               foreach($ad->getImages() as $image)
               {
