@@ -19,10 +19,18 @@ class AccountController extends AbstractController
     {
         $error = $utils->getLastAuthenticationError();
         $username = $utils->getLastUsername();
+
+        $loginError = null;
+
+        if ($error instanceof TooManyLoginAttempsAuthenticationException)
+        {
+            $loginError = 'Trop de tentatives de connexion. Réessayez plus tard.';
+        }
         
         return $this->render('account/index.html.twig', [
             'hasError' => $error !== null,
             'username' => $username,
+            'loginError' => $loginError
         ]);
     }
 

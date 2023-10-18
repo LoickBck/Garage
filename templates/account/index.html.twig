@@ -8,11 +8,17 @@
             <div class="col-md-6 offset-md-3 bg-light p-3">
                 <h1>Connexion</h1>
                 {# gestion des erreurs #}
-                {% if hasError %}{% endif %}
+                {% if hasError %}
                     <div class="alert alert-danger">
                         Une erreur est survenue, le nom d'utilisateur ou le mot de passe est invalide
                     </div>
                 {% endif %}
+                {% if loginError %}
+                    <div class="alert alert-danger">
+                        {{ loginError }}
+                    </div>
+                {% endif %}
+                
                 <form action="{{path('account_login')}}" method="POST">
                     <div class="form-group my-2">
                          {# Symfony veut un name précis pour le login : _username #}
