@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\AccountType;
+use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
+use App\Form\PasswordUpdateType;
+use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -81,6 +85,74 @@ class AccountController extends AbstractController
         }
         return $this->render('account/registration.html.twig', [
         'myForm' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Permet à l'utilisateur de modifier son profil
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     * */
+    #[Route('/account/profile', name: 'account_profile')]
+    public function profile (Request $request, EntityManagerInterface $manager): Response
+    {
+        $user = $this->getUser(); // Permet de récupérer l'utilisateur connecté
+        $form = $this->createForm(AccountType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash('success', 'Les données de votre profil ont bien été enregistrées');
+        }
+
+        return $this->render('account/profile.html.twig', [
+            'myForm' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Permet à l'utilisateur de modifier son mot de passe
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param UserPasswordHasherInterface $hasher
+     * @return Response
+     */
+    #[Route('/account/password-update', name: 'account_password')]
+    public function updatePassword(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
+    {
+        $passwordUpdate = new PasswordUpdate();
+        $user = $this->getUser(); // Permet de récupérer l'utilisateur connecté
+        $form = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            if(!password_verify($passwordUpdate->getOldPassword(), $user->getPassword()))
+            {
+                $form->get('oldPassword')->addError(new FormError ("Le mot de passe que vous avez renseigné n'est pas le mot de passe actuel")); //
+            }else{
+                $newPassword = $passwordUpdate->getNewPassword();
+                $hash = $hasher->hashPassword($user, $newPassword);
+
+                $user->setPassword($hash);
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash('success', 'Votre nouveau mot de passe a bien été enregistré');
+
+                return $this->redirectToRoute('homepage');
+            }
+
+        }
+
+        return $this->render('account/password.html.twig', [
+            'myForm' => $form->createView()
         ]);
     }
 
