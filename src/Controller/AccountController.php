@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\AccountType;
+use App\Form\ImgModifyType;
+use App\Entity\UserImgModify;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
 use App\Form\PasswordUpdateType;
@@ -11,6 +13,7 @@ use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -24,7 +27,7 @@ class AccountController extends AbstractController
      *
      * @param AuthenticationUtils $utils
      * @return Response
-     */
+     */   
     #[Route('/login', name: 'account_login')]
     public function index(AuthenticationUtils $utils): Response
     {
@@ -33,9 +36,12 @@ class AccountController extends AbstractController
 
         $loginError = null;
 
-        if ($error instanceof TooManyLoginAttemptsAuthenticationException)
+        //dump($error);
+
+        if($error instanceof TooManyLoginAttemptsAuthenticationException)
         {
-            $loginError = 'Trop de tentatives de connexion. Réessayez plus tard.';
+            // l'ereur est due à la limitation de tentative de connexion
+            $loginError = "Trop de tentatives de connexion. Réessayez plus tard";
         }
         
         return $this->render('account/index.html.twig', [
@@ -57,30 +63,31 @@ class AccountController extends AbstractController
     }
 
     /**
-     * Permet d'afficher le formulaire d'inscription ainsi que la gestion de l'inscription de l'utilisateur
+     * Permet d'afficher le formulaire d'inscription ainsi la gestion de l'inscription de l'utilisateur
      *
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @param UserPasswordHasherInterface $hasher
      * @return Response
      */
-     #[Route('/register', name: 'account_register')]
+    #[Route("/register", name:"account_register")]
     public function register(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
+        // partie traitement du formulaire
+        if($form->isSubmitted() && $form->isValid())
         {
 
-            //gestion de l'image 
+            // gestion de l'image
             $file = $form['picture']->getData();
             if(!empty($file))
             {
-                $originalFilename = pathinfo($this->getClientOriginalName(),PATHINFO_FILENAME);
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $safeFilename."-".uniqid().".".$file->guessExtension();
+                $newFilename = $safeFilename."-".uniqid().'.'.$file->guessExtension();
                 try{
                     $file->move(
                         $this->getParameter('uploads_directory'),
@@ -91,82 +98,93 @@ class AccountController extends AbstractController
                     return $e->getMessage();
                 }
                 $user->setPicture($newFilename);
+
             }
-            //gestion de l'inscription de l'utilisateur dans la base de données
+
+            // gestion de l'inscription dans la bdd
             $hash = $hasher->hashPassword($user, $user->getPassword());
             $user->setPassword($hash);
 
             $manager->persist($user);
             $manager->flush();
 
+
             return $this->redirectToRoute('account_login');
-
-        }
-        return $this->render('account/registration.html.twig', [
-        'myForm' => $form->createView()
-        ]);
-    }
-
-    /**
-     * Permet à l'utilisateur de modifier son profil
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $manager
-     * @return Response
-     * */
-    #[Route('/account/profile', name: 'account_profile')]
-    public function profile (Request $request, EntityManagerInterface $manager): Response
-    {
-        $user = $this->getUser(); // Permet de récupérer l'utilisateur connecté
-
-        // Pour la validation des images(plus tard validation groups)
-        $filename = $user->getPicture();
-        if(!empty($filename)){
-            $user->setPicture(
-            new File($this->getParameter('uploads_directory')."/".$user->getPicture())
-            );
         }
 
-        $form = $this->createForm(AccountType::class, $user);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $user->setSlug('')
-                ->setPicture($filename);
-            
-            $manager->persist($user);
-            $manager->flush();
-
-            $this->addFlash('success', 'Les données de votre profil ont bien été enregistrées');
-        }
-
-        return $this->render('account/profile.html.twig', [
+        return $this->render("account/registration.html.twig",[
             'myForm' => $form->createView()
         ]);
     }
 
     /**
-     * Permet à l'utilisateur de modifier son mot de passe
+     * Permet de modifier l'utilisateur
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[Route("/account/profile", name:"account_profile")]
+    public function profile(Request $request, EntityManagerInterface $manager): Response
+    {
+        $user = $this->getUser(); // permet de récup l'utilisateur connecté
+
+        // pour la validation des images (plus tard validation groups)
+        $fileName = $user->getPicture();
+        if(!empty($fileName)){
+            $user->setPicture(
+                new File($this->getParameter('uploads_directory').'/'.$user->getPicture())
+            );
+        }
+
+        $form = $this->createForm(AccountType::class,$user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+
+            $user->setSlug('')
+                ->setPicture($fileName);
+
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Les données ont été enregistrées avec succés"
+            );
+        }
+
+        return $this->render("account/profile.html.twig",[
+            'myForm' => $form->createView()
+        ]);
+
+    }
+
+    /**
+     * Permet de modifier le mot de passe
      *
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @param UserPasswordHasherInterface $hasher
      * @return Response
      */
-    #[Route('/account/password-update', name: 'account_password')]
+    #[Route("/account/password-update", name:"account_password")]
     public function updatePassword(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
         $passwordUpdate = new PasswordUpdate();
-        $user = $this->getUser(); // Permet de récupérer l'utilisateur connecté
+        $user = $this->getUser();
         $form = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
+        if($form->isSubmitted() && $form->isValid())
         {
-            if(!password_verify($passwordUpdate->getOldPassword(), $user->getPassword()))
+            // vérifier si le mot de passe correspond à l'ancien
+            if(!password_verify($passwordUpdate->getOldPassword(),$user->getPassword()))
             {
-                $form->get('oldPassword')->addError(new FormError ("Le mot de passe que vous avez renseigné n'est pas le mot de passe actuel")); //
+                // gestion de l'erreur
+                $form->get('oldPassword')->addError(new FormError("Le mot de passe que vous avez tapé n'est pas votre mot de passe actuel"));
             }else{
                 $newPassword = $passwordUpdate->getNewPassword();
                 $hash = $hasher->hashPassword($user, $newPassword);
@@ -175,16 +193,104 @@ class AccountController extends AbstractController
                 $manager->persist($user);
                 $manager->flush();
 
-                $this->addFlash('success', 'Votre nouveau mot de passe a bien été enregistré');
+                $this->addFlash(
+                    'success',
+                    'Votre mot de passe a bien été modifié'
+                );
 
                 return $this->redirectToRoute('homepage');
             }
 
         }
 
-        return $this->render('account/password.html.twig', [
+        return $this->render("account/password.html.twig", [
+            'myForm' => $form->createView()
+        ]);
+
+    }
+
+    /**
+     * Permet de supprimer l'image de l'utilisateur
+     *
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[Route("/account/delimg", name:"account_delimg")]
+    public function removeImg(EntityManagerInterface $manager): Response
+    {
+        $user = $this->getUser();
+        if(!empty($user->getPicture()))
+        {
+            unlink($this->getParameter('uploads_directory').'/'.$user->getPicture());
+            $user->setPicture('');
+            $manager->persist($user);
+            $manager->flush();
+            $this->addFlash(
+                'success',
+                'Votre avatar a bien été supprimé'
+            );
+        }
+
+        return $this->redirectToRoute('homepage');
+
+    }
+
+    /**
+     * Permet de modifier l'avatar de l'utilisateur
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[Route("/account/imgmodify", name:"account_modifimg")]
+    public function imgModify(Request $request, EntityManagerInterface $manager): Response
+    {
+        $imgModify = new UserImgModify();
+        $user = $this->getUser();
+        $form = $this->createForm(ImgModifyType::class, $imgModify);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            //permet de supprimer l'image dans le dossier
+            // gestion de la non-obligation de l'image
+            if(!empty($user->getPicture()))
+            {
+                unlink($this->getParameter('uploads_directory').'/'.$user->getPicture());
+            }
+
+              // gestion de l'image
+              $file = $form['newPicture']->getData();
+              if(!empty($file))
+              {
+                  $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                  $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                  $newFilename = $safeFilename."-".uniqid().'.'.$file->guessExtension();
+                  try{
+                      $file->move(
+                          $this->getParameter('uploads_directory'),
+                          $newFilename
+                      );
+                  }catch(FileException $e)
+                  {
+                      return $e->getMessage();
+                  }
+                  $user->setPicture($newFilename);
+              }
+              $manager->persist($user);
+              $manager->flush();
+
+              $this->addFlash(
+                'success',
+                'Votre avatar a bien été modifié'
+              );
+
+              return $this->redirectToRoute('homepage');
+
+        }
+
+        return $this->render("account/imgModify.html.twig",[
             'myForm' => $form->createView()
         ]);
     }
-
 }
