@@ -73,6 +73,25 @@ class AccountController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+
+            //gestion de l'image 
+            $file = $form['picture']->getData();
+            if(!empty($file))
+            {
+                $originalFilename = pathinfo($this->getClientOriginalName(),PATHINFO_FILENAME);
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename."-".uniqid().".".$file->guessExtension();
+                try{
+                    $file->move(
+                        $this->getParameter('uploads_directory'),
+                        $newFilename
+                    );
+                }catch(FileException $e)
+                {
+                    return $e->getMessage();
+                }
+                $user->setPicture($newFilename);
+            }
             //gestion de l'inscription de l'utilisateur dans la base de données
             $hash = $hasher->hashPassword($user, $user->getPassword());
             $user->setPassword($hash);
@@ -99,11 +118,23 @@ class AccountController extends AbstractController
     public function profile (Request $request, EntityManagerInterface $manager): Response
     {
         $user = $this->getUser(); // Permet de récupérer l'utilisateur connecté
+
+        // Pour la validation des images(plus tard validation groups)
+        $filename = $user->getPicture();
+        if(!empty($filename)){
+            $user->setPicture(
+            new File($this->getParameter('uploads_directory')."/".$user->getPicture())
+            );
+        }
+
         $form = $this->createForm(AccountType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $user->setSlug('')
+                ->setPicture($filename);
+            
             $manager->persist($user);
             $manager->flush();
 
