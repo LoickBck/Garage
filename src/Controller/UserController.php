@@ -26,7 +26,7 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function myAccount(): Response
     {
-        return $this->render('user/user.html.twig', [
+        return $this->render('user/index.html.twig', [
             'user' => $this->getUser()
         ]);
     }
