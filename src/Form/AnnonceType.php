@@ -32,8 +32,8 @@ class AnnonceType extends ApplicationType
             ->add('coverImage', UrlType::class, $this->getConfiguration("Url de l'image", "Donnez l'adresse de votre image"))
             ->add('introduction', TextType::class, $this->getConfiguration('Introduction','Donnez une description globale de votre annonce'))
             ->add('content', TextareaType::class, $this->getConfiguration('Description détaillée','Donnez une description de votre bien'))
-            ->add('rooms', IntegerType::class, $this->getConfiguration('Nombre de chambre','Donnez le nombre de chambres disponibles'))
-            ->add('price', MoneyType::class, $this->getConfiguration('Prix par nuit','Indiquer le prix que vous voulez pour une nuit'))
+            ->add('rooms', IntegerType::class, $this->getConfiguration('Nombre de véhicule','Nombre de véhicule(s) que vous voulez vendre'))
+            ->add('price', MoneyType::class, $this->getConfiguration('Prix du véhicule','Indiquer le prix que vous voulez pour votre véhicule'))
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
                 'allow_add' => true, // pour le data_prototype

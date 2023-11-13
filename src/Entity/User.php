@@ -247,15 +247,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->ads;
     }
 
-    public function addAd(Ad $ad): static
-    {
-        if (!$this->ads->contains($ad)) {
-            $this->ads->add($ad);
-            $ad->setAuthor($this);
-        }
+    public function createAd(Request $request)
+{
+    // Assurez-vous que l'utilisateur est authentifié (géré par Symfony)
 
-        return $this;
+    // Obtenez l'utilisateur connecté
+    $user = $this->security->getUser();
+
+    if ($user instanceof UserInterface) {
+        // Créez une nouvelle annonce
+        $ad = new Ad();
+
+        // Associez l'utilisateur actuel comme l'auteur de l'annonce
+        $ad->setAuthor($user);
+
+        // Gérez la création de l'annonce et la persistance en base de données
+        // ...
+
+        return $this->render('...'); // Redirection ou réponse appropriée
+    } else {
+        // Gérez le cas où l'utilisateur n'est pas connecté
     }
+}
 
     public function removeAd(Ad $ad): static
     {

@@ -27,9 +27,9 @@ class AppFixtures extends Fixture
 
         // création d'un admin
         $admin = new User();
-        $admin->setFirstName('Jordan')
-            ->setLastName('Berti')
-            ->setEmail('berti@epse.be')
+        $admin->setFirstName('Loick')
+            ->setLastName('Buck')
+            ->setEmail('buckl@epse.be')
             ->setPassword($this->passwordHasher->hashPassword($admin, 'password'))
             ->setIntroduction($faker->sentence())
             ->setDescription('<p>'.join('</p><p>',$faker->paragraphs(3)).'</p>')

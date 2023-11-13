@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Bienvenue{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="jumbotron mt-3">
+            <h1 class="display-4">Bienvenue sur la page des véhicules</h1>
+        </div>
+        <h1 class="text-center">&bullet; VOITURES &bullet;</h1>
+        <div class="container">
+        <div class="row">
+            {% for car in cars %}
+                {% include "car/_car.html.twig" %}
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+
+
+{% endblock %}

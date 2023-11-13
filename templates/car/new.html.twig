@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+
+
+{% block title %}Création d'une présentation{% endblock %}
+
+{% form_theme myForm 'car/_collection.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h1>Création d'une nouvelle présentation</h1>
+
+        {{ form_start(myForm) }}
+
+
+            {# <h3>Avant form_widget</h3> #}
+
+            {# {{form_widget(myForm.model, {'attr': {'class':'form-control'}})}} #}
+
+            {# {{form_row(myForm.model)}} #}
+
+            {# <h3>après form_widget</h3> #}
+
+
+             {{form_widget(myForm)}}
+
+            <button type="submit" class="btn btn-primary mt-3">Création d'une présentation</button>
+
+
+
+        {{ form_end(myForm) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{encore_entry_script_tags('pres')}}
+{% endblock %}
+
+

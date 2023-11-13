@@ -1,3 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Abel&family=Archivo&family=Marcellus+SC&family=Montserrat&family=Mukta:wght@300&family=Noto+Sans+Thai+Looped&family=Ysabeau+SC:wght@500&display=swap');
+/* 
+Bleu profond (#001233), rouge corail clair (#FF595A), beige (#CAC0B3) 
+*/
+body {
+    font-family: 'Abel', sans-serif;
+    font-family: 'Archivo', sans-serif;
+    font-family: 'Marcellus SC', serif;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Mukta', sans-serif;
+    font-family: 'Noto Sans Thai Looped', sans-serif;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+nav {
+    
+}
 .container{
     margin-top: 20px;
 }
@@ -12,12 +28,27 @@
 .annonce-title{
     padding: 2em;
     background-size: cover;
+    margin-bottom: 50px;
     background-position: center center;
+    font-family: 'Abel', sans-serif;
+    font-family: 'Archivo', sans-serif;
+    font-family: 'Marcellus SC', serif;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Mukta', sans-serif;
+    font-family: 'Noto Sans Thai Looped', sans-serif;
+    font-family: 'Ysabeau SC', sans-serif;
 }
 
 .annonce-title h1, .annonce-title p{
     color: white;
     text-shadow: 3px 3px 3px rgba(0,0,0,0.5);
+    font-family: 'Abel', sans-serif;
+    font-family: 'Archivo', sans-serif;
+    font-family: 'Marcellus SC', serif;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Mukta', sans-serif;
+    font-family: 'Noto Sans Thai Looped', sans-serif;
+    font-family: 'Ysabeau SC', sans-serif;
 }
 
 .carousel-item img{
@@ -47,4 +78,20 @@ avatar-medium{
 avatar-mini{
     max-width: 24px;
     max-height: 24px;
+}
+
+h1.display-4 {
+    margin: 50px 50px 50px 50px;
+}
+
+.annonce-title{
+    min-height: 90vh;
+}
+
+.footer{
+    background-color: #001233;
+}
+
+.col-md-12{
+    margin-top: 70px;
 }

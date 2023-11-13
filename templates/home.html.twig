@@ -5,28 +5,34 @@
 {% block body %}
     <div class="container">
         <div class="jumbotron mt-3">
-            <h1 class="display-3">Bienvenue sur ImmoLoc</h1>
-            <p class="lead">Nous mettons en relation des futurs locataires et les propriétaires qui veulent profiter d'opportunités et gagner de l'argent en proposant leurs biens à la location pour des vacances</p>
+            <h1 class="display-3">Bienvenue sur Silver Ride</h1>
+            <p class="lead">Nous mettons en relation des futurs vendeurs et les propriétaires qui veulent profiter d'opportunités en proposant leurs véhicules à des prix démocratiques</p>
             <hr class="my-4">
-            <p>Vous êtes voyageur? Et vous voulez voir où vous pourrez loger pour votre prochain déplacement?</p>
+            <p>Vous êtes acheteur? Et vous voulez voir quel sera votre prochain véhicule ?</p>
             <p class="lead">
                 <a href="#" class="btn btn-primary btn-lg" role="button">Voir nos annonces</a>
             </p>
         </div>
-        <h1 class="mt-3 mb-4">Nos biens immobilier stars</h1>
+        <h1 class="mt-3 mb-4">Nos véhicules stars</h1>
         <div class="row">
             <div class="col-md-4">
                 <div class="card bg-light mb-3">
                     <div class="card-header text-center">
-                        3 chambres, <strong>49€ / nuit</strong>
+                        Audi Q5 ,<strong>77 999€</strong>
                     </div>
-                    <img src="http://placehold.it/1000x400" alt="Image de l'appartement" class="starsimg">
+                    <img src="https://static.moniteurautomobile.be/imgcontrol/images_tmp/clients/moniteur/c520-d355/content/medias/images/cars/audi/q5/audi--q5--2021/audi--q5--2021-m-1.jpg" alt="Image de l'appartement" class="starsimg">
                     <div class="card-body">
                         <div class="card-title">
-                            Super appartement! 
+                            Superbe Audi Q5 Competition 55 TFSI e S tronic quattro (367 Ch)
                         </div>
                         <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, earum modi! Dolorem at exercitationem sapiente optio aliquam blanditiis.
+                            Consommation mixte
+                            1.6 l / 100 km - 
+                            Emission de CO2 | 
+                            39 g/km <br>
+
+                            Taxe de mise en circulation
+                            4957 €
                         </p>
                         <a href="#" class="btn btn-secondary">En savoir plus</a>
                     </div>
@@ -35,15 +41,21 @@
             <div class="col-md-4">
                 <div class="card bg-light mb-3">
                     <div class="card-header text-center">
-                        3 chambres, <strong>49€ / nuit</strong>
+                        BMW Série 3 ,<strong>57 000 €</strong>
                     </div>
-                    <img src="http://placehold.it/1000x400" alt="Image de l'appartement" class="starsimg">
+                    <img src="https://static.moniteurautomobile.be/imgcontrol/images_tmp/clients/moniteur/c680-d465/content/medias/images/cars/bmw/series-3/bmw--serie-3-berline--2022/bmw--serie-3-berline--2022-m-1.jpg" alt="Image de l'appartement" class="starsimg">
                     <div class="card-body">
                         <div class="card-title">
-                            Super appartement! 
+                            Super BMW Série 3 2023 (330e (215 kW))
                         </div>
                         <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, earum modi! Dolorem at exercitationem sapiente optio aliquam blanditiis.
+                            Consommation mixte
+                            7.0 l/100 km - 
+                            Emission de CO2 | 
+                            12 - 157 g/km <br>
+
+                            Taxe de mise en circulation
+                            2478 €
                         </p>
                         <a href="#" class="btn btn-secondary">En savoir plus</a>
                     </div>
@@ -52,31 +64,52 @@
             <div class="col-md-4">
                 <div class="card bg-light mb-3">
                     <div class="card-header text-center">
-                        3 chambres, <strong>49€ / nuit</strong>
+                        Alfa Romeo Giulia <strong> 62 250€</strong>
                     </div>
-                    <img src="http://placehold.it/1000x400" alt="Image de l'appartement" class="starsimg">
+                    <img src="https://static.moniteurautomobile.be/imgcontrol/images_tmp/clients/moniteur/c680-d465/content/medias/images/cars/alfa-romeo/giulia/alfa-romeo--giulia--2023/alfa-romeo--giulia--2023-m-1.jpg" alt="Image de l'appartement" class="starsimg">
                     <div class="card-body">
                         <div class="card-title">
-                            Super appartement! 
+                            Super Alfa Romeo Giulia 2.0 TB 280 Q4 Competizione (280 Ch)
                         </div>
                         <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, earum modi! Dolorem at exercitationem sapiente optio aliquam blanditiis.
+                            Consommation mixte
+                            7.6 l / 100 km - 
+                            Emission de CO2 | 
+                            173 - 185 g/km <br>
+
+                            Taxe de mise en circulation
+                            3478 €
                         </p>
                         <a href="#" class="btn btn-secondary">En savoir plus</a>
                     </div>
                 </div>
             </div>
         </div>
-        <h1 class="mt-3 mb-4">Nos propriétaires stars</h1>
+        <div class="latestcars">
+	    <h1 class="text-center">&bullet; LATEST   CARS &bullet;</h1>
+	    <ul class="nav nav-tabs navbar-left latest-navleft">
+		    <li role="presentation" class="li-sortby"><span class="sortby">SORT BY: </span></li>
+		    <li data-filter=".RECENT" role="presentation"><a href="#mostrecent" class="prcBtnR">MOST RECENT </a></li>
+		    <li data-filter=".POPULAR" role="presentation"><a href="#mostpopular" class="prcBtnR">MOST POPULAR </a></li>
+		    <li  role="presentation"><a href="#" class="alphSort">ALPHABETICAL </a></li>
+		    <li data-filter=".HPRICE" role="presentation"><a href="#" class="prcBtnH">HIGHEST PRICE </a></li>
+		    <li data-filter=".LPRICE" role="presentation"><a href="#" class="prcBtnL">LOWEST  PRICE </a></li>
+		    <li id="hideonmobile">
+	    </ul>
+        </div>
+        <br>
+        <br>
+        
+        <h1 class="mt-3 mb-4">Nos vendeurs stars</h1>
         <div class="row">
             <div class="col-md-6">
                 <div class="card border-secondary mb-3">
                     <div class="card-body">
-                        <h4 class="card-title">Bruce Wayne</h4>
+                        <h4 class="card-title">Vin Diesel</h4>
                         <hr>
                         <div class="card-text">
-                            <img src="http://placehold.it/64x64" alt="Avatar de Bruce Wayne" class="float-left ms-3">
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas, rerum!</p>
+                            <img src="http://placehold.it/64x64" alt="Avatar de Vin Diesel" class="float-left ms-3">
+                            <p>Mark Sinclair Vincent</p>
                             <a href="#" class="btn btn-success float-right">En savoir plus</a>
                         </div>
                     </div>
@@ -85,11 +118,11 @@
             <div class="col-md-6">
                 <div class="card border-secondary mb-3">
                     <div class="card-body">
-                        <h4 class="card-title">Bruce Wayne</h4>
+                        <h4 class="card-title">The Rock</h4>
                         <hr>
                         <div class="card-text">
-                            <img src="http://placehold.it/64x64" alt="Avatar de Bruce Wayne" class="float-left ms-3">
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas, rerum!</p>
+                            <img src="http://placehold.it/64x64" alt="Avatar de Dwayne Johnson" class="float-left ms-3">
+                            <p>Dwayne Johnson</p>
                             <a href="#" class="btn btn-success float-right">En savoir plus</a>
                         </div>
                     </div>
