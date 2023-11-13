@@ -63,8 +63,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Ad::class)]
-    private Collection $ads;
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Car::class)]
+    private Collection $cars;
 
     public function __construct()
     {
@@ -240,11 +240,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Ad>
+     * @return Collection<int, Car>
      */
-    public function getAds(): Collection
+    public function getCars(): Collection
     {
-        return $this->ads;
+        return $this->cars;
     }
 
     public function createAd(Request $request)
@@ -256,10 +256,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     if ($user instanceof UserInterface) {
         // Créez une nouvelle annonce
-        $ad = new Ad();
+        $car = new Car();
 
         // Associez l'utilisateur actuel comme l'auteur de l'annonce
-        $ad->setAuthor($user);
+        $car>setId($user);
 
         // Gérez la création de l'annonce et la persistance en base de données
         // ...
@@ -270,12 +270,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 }
 
-    public function removeAd(Ad $ad): static
+    public function removeCar(Car $car): static
     {
-        if ($this->ads->removeElement($ad)) {
+        if ($this->cars->removeElement($car)) {
             // set the owning side to null (unless already changed)
-            if ($ad->getAuthor() === $this) {
-                $ad->setAuthor(null);
+            if ($car->getAuthor() === $this) {
+                $car->setAuthor(null);
             }
         }
 

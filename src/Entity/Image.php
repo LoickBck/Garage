@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Ad;
 use App\Entity\Car;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ImageRepository;
@@ -24,9 +23,6 @@ class Image
     #[Assert\Length(min: 10, max:255, minMessage:"Le titre de l'image doit faire plus de 10 caractères", maxMessage:"Le titre de l'image ne doit pas faire plus de 255 caractères")]
     private ?string $caption = null;
 
-    #[ORM\ManyToOne(inversedBy: 'images', targetEntity: Ad::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Ad $ad = null;
 
     #[ORM\ManyToOne(inversedBy: 'images', targetEntity: Car::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -62,17 +58,6 @@ class Image
         return $this;
     }
 
-    public function getAd(): ?Ad
-    {
-        return $this->ad;
-    }
-    
-    public function setAd(?Ad $ad): static
-    {
-        $this->ad = $ad;
-    
-        return $this;
-    }
     public function getCar(): ?Car
     {
         return $this->car;

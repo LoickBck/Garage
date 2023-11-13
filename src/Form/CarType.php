@@ -35,6 +35,7 @@ class CarType extends ApplicationType
             ->add('fuel', TextType::class, $this->getConfiguration('Carburant', 'Indiquez le type de carburant du véhicule en chevaux'))
             ->add('manufacturingYear', DateType::class, [
                 'widget' => 'single_text',
+                'label' => 'Année de mise en circulation', // Mettez l'étiquette souhaitée ici
                 'html5' => false, // Ajoutez ceci si vous ne voulez pas de champ de type HTML5
                 'format' => 'dd/MM/yyyy', // Spécifiez le format de date souhaité
                 'help' => 'Indiquez la date dans ce format : DD/MM/YYYY', // Ajoutez un commentaire ici

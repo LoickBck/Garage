@@ -12,7 +12,7 @@
                 <img src="http://placehold.it/300x300" alt="Avatar de {{user.fullName}}" class="avatar mb-3">        
             {% endif %}
             <button type="button" class="btn btn-primary">
-                Annonce(s) <span class="badge badge-secondary">{{user.ads | length}}</span>
+                Présentation(s) <span class="badge badge-secondary">{{user.cars | length}}</span>
             </button>
         </div>
         <div class="col-9">
@@ -30,8 +30,8 @@
     </div>
     {{user.description | raw | nl2br }}
     <hr>
-    <h2>Les annonces de {{user.fullName}}</h2>
-    {% if user.ads | length > 0 %}
+    <h2>Les présentations de {{user.fullName}}</h2>
+    {% if user.cars | length > 0 %}
         <div class="row">
             {% for ad in user.ads %}
                 {% include 'ad/_ad.html.twig' %}
@@ -39,7 +39,7 @@
         </div>
     {% else %}
         <div class="alert alert-warning">
-            <p><strong>{{user.fullName}}</strong> n'a pas encore d'annonce sur le site</p>
+            <p><strong>{{user.fullName}}</strong> n'a pas encore de présentation sur le site</p>
         </div>
     
     {% endif %}

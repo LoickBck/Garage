@@ -1,28 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Abel&family=Archivo&family=Marcellus+SC&family=Montserrat&family=Mukta:wght@300&family=Noto+Sans+Thai+Looped&family=Ysabeau+SC:wght@500&display=swap');
 /* 
-Bleu profond (#001233), rouge corail clair (#FF595A), beige (#CAC0B3) 
+Bleu profond (#001233), rouge corail clair (#FF595A), beige (CAC0B3#) 
 */
 body {
-    font-family: 'Abel', sans-serif;
-    font-family: 'Archivo', sans-serif;
-    font-family: 'Marcellus SC', serif;
-    font-family: 'Montserrat', sans-serif;
-    font-family: 'Mukta', sans-serif;
     font-family: 'Noto Sans Thai Looped', sans-serif;
-    font-family: 'Ysabeau SC', sans-serif;
 }
 nav {
-    
+    font-family: 'Noto Sans Thai Looped', sans-serif;
 }
 .container{
     margin-top: 20px;
 }
 
+.container.row{
+    font-size: 20px;
+}
+
+.card-header strong {
+    color: #FF595A;
+}
+
 .starsimg{
-    height: 200px;
+    height: 250px;
     width: 100%;
     object-fit: cover;
     display: block;
+    background-color: #001233;
 }
 
 .annonce-title{
@@ -30,30 +33,20 @@ nav {
     background-size: cover;
     margin-bottom: 50px;
     background-position: center center;
-    font-family: 'Abel', sans-serif;
-    font-family: 'Archivo', sans-serif;
-    font-family: 'Marcellus SC', serif;
-    font-family: 'Montserrat', sans-serif;
-    font-family: 'Mukta', sans-serif;
     font-family: 'Noto Sans Thai Looped', sans-serif;
-    font-family: 'Ysabeau SC', sans-serif;
 }
 
 .annonce-title h1, .annonce-title p{
     color: white;
     text-shadow: 3px 3px 3px rgba(0,0,0,0.5);
-    font-family: 'Abel', sans-serif;
-    font-family: 'Archivo', sans-serif;
-    font-family: 'Marcellus SC', serif;
-    font-family: 'Montserrat', sans-serif;
-    font-family: 'Mukta', sans-serif;
     font-family: 'Noto Sans Thai Looped', sans-serif;
-    font-family: 'Ysabeau SC', sans-serif;
 }
 
 .carousel-item img{
-    height: 400px;
+    margin-top: 50px;
+    height: 600px;
     object-fit: cover;
+    min-width: 90vh !important;
 }
 
 .carousel-caption{
@@ -94,4 +87,46 @@ h1.display-4 {
 
 .col-md-12{
     margin-top: 70px;
+}
+
+.car-cover-image{
+    min-height: 90vh;
+    text-shadow: 3px 3px 3px rgba(0,0,0,0.5);
+    font-family: 'Noto Sans Thai Looped', sans-serif;
+    padding: 2em;
+    background-size: cover;
+    margin-bottom: 50px;
+    background-position: center center;
+}
+.car-cover-image h1{
+    color: white !important;
+}
+.car-cover-image h2{
+    margin-top: 50px;
+    color: white !important;
+}
+.car-cover-image p{
+    margin-top: 50px;
+    font-family: 'Noto Sans Thai Looped', sans-serif;
+    color: white;
+}
+
+
+.col-md-12 ul li{
+    margin-top: 30px;
+}
+
+.car-cover-image strong{
+    color: #CAC0B3 !important;
+}
+
+.footer{
+    font-family: 'Noto Sans Thai Looped', sans-serif;
+    color: #001233;
+    background-color: #CAC0B3;
+    font-size: 20px;
+}
+
+.btn btn-outline-danger {
+    font-size: 28px;
 }

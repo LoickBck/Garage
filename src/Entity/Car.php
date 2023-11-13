@@ -68,7 +68,7 @@ class Car
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Assert\Length(min: 20, max: 2048, minMessage:"Les optionnages doivent faire plus de 20 caractères", maxMessage: "Les optionnages ne doivent pas faire plus de 2048 caractères")]
+    #[Assert\Length(min: 20, max: 4096, minMessage:"Les optionnages doivent faire plus de 20 caractères", maxMessage: "Les optionnages ne doivent pas faire plus de 4096 caractères")]
     private ?string $options = null;
 
     #[ORM\OneToMany(mappedBy: 'car', targetEntity: Image::class, orphanRemoval: true)]
@@ -178,9 +178,9 @@ class Car
         return $this->n_owner;
     }
 
-    public function setNOwner(int $n_owner): static
+    public function setNOwner(int $nOwner): static
     {
-        $this->n_owner = $n_owner;
+        $this->n_owner = $nOwner;
 
         return $this;
     }
@@ -298,5 +298,5 @@ class Car
 
         return $this;
     }
-
 }
+

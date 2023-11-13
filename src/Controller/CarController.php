@@ -8,12 +8,12 @@ use App\Form\CarType;
 use App\Repository\CarRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Expression\Expression;
-use Symfony\Component\Security\Core\Authorization\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Authorization\ExpressionLanguage;
 
 class CarController extends AbstractController
 {
@@ -97,7 +97,7 @@ class CarController extends AbstractController
     #[Route("/cars/{slug}/edit", name:"cars_edit")]
     #[IsGranted(
         attribute: new Expression('(user === subject and is_granted("ROLE_USER")) or is_granted("ROLE_ADMIN")'),
-        subject: new Expression('args["car"]'),
+        subject: new Expression('args["car"].getId()'),
         message: "Cette présentation ne vous appartient pas , vous ne pouvez pas la modifier"
     )]
     public function edit(Request $request, Car $car, EntityManagerInterface $manager): Response
@@ -137,6 +137,21 @@ class CarController extends AbstractController
             ]);
     }
 
+    public function showCar(int $carId): Response
+    {
+        // Récupérez la voiture depuis la base de données
+        $car = $this->getDoctrine()->getRepository(Car::class)->find($carId);
+    
+        // Assurez-vous que la variable 'author' est correctement définie
+        $author = $car->getAuthor(); // Supposons que vous ayez une méthode getAuthor() dans votre entité Car
+    
+        return $this->render('car/show.html.twig', [
+            'car' => $car,
+            'author' => $author,
+        ]);
+    }
+
+
         /**
      * Permet de supprimer une présentation
      *
@@ -147,7 +162,7 @@ class CarController extends AbstractController
     #[Route("/cars/{slug}/delete", name:"cars_delete")]
     #[IsGranted(
         attribute: new Expression('(user === subject and is_granted("ROLE_USER")) or is_granted("ROLE_ADMIN")'),
-        subject: new Expression('args["car"]'),
+        subject: new Expression('args["car"].getId()'),
         message: "Cette présentation ne vous appartient pas, vous ne pouvez pas la supprimer"
     )]
     public function delete(Car $car, EntityManagerInterface $manager): Response
