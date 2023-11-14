@@ -140,3 +140,7 @@ h1.display-4 {
     max-height: 64px !important;
     
 }
+
+.lead {
+    color: #001233 !important;
+}
