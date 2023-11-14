@@ -8,7 +8,7 @@
             <h1>{{ car.model }}</h1>
             <h2>{{ car.description }}</h2>
             <p class="h2">Une magnifique {{ car.model }} pour <strong>{{ car.price }}€</strong></p>
-            {% if app.user or is_granted('ROLE_ADMIN') %}
+            {% if (app.user) or is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('cars_edit', {'slug': car.slug}) }}" class="btn btn-warning m-5">Modification de la présentation</a>
                 <a href="{{ path('cars_delete', {'slug': car.slug}) }}" class="btn btn-danger m-5">Supprimer la présentation</a>
             {% endif %}

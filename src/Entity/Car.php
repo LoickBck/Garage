@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use App\Entity\Image;
 use DateTimeInterface;
 use Cocur\Slugify\Slugify;

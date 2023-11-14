@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
+use App\Entity\Car;
 use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -63,12 +64,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Car::class)]
-    private Collection $cars;
+    #[ORM\OneToMany(targetEntity:Car::class, mappedBy:"id")] //  Cela signifie qu'un utilisateur peut avoir plusieurs voitures associées.
+    private $cars;
 
     public function __construct()
     {
-        $this->ads = new ArrayCollection();
+        $this->cars = new ArrayCollection();
     }
 
     /**
@@ -247,35 +248,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->cars;
     }
 
-    public function createAd(Request $request)
-{
-    // Assurez-vous que l'utilisateur est authentifié (géré par Symfony)
+    public function createCar(Car $car): static
+    {
+        if (!$this->cars->contains($car)) {
+            $this->cars->add($car);
+            $car->setId($this);
+        }
 
-    // Obtenez l'utilisateur connecté
-    $user = $this->security->getUser();
-
-    if ($user instanceof UserInterface) {
-        // Créez une nouvelle annonce
-        $car = new Car();
-
-        // Associez l'utilisateur actuel comme l'auteur de l'annonce
-        $car>setId($user);
-
-        // Gérez la création de l'annonce et la persistance en base de données
-        // ...
-
-        return $this->render('...'); // Redirection ou réponse appropriée
-    } else {
-        // Gérez le cas où l'utilisateur n'est pas connecté
+        return $this;
     }
-}
 
     public function removeCar(Car $car): static
     {
         if ($this->cars->removeElement($car)) {
             // set the owning side to null (unless already changed)
-            if ($car->getAuthor() === $this) {
-                $car->setAuthor(null);
+            if ($car->getId() === $this) {
+                $car->setId(null);
             }
         }
 

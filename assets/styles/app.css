@@ -4,16 +4,13 @@ Bleu profond (#001233), rouge corail clair (#FF595A), beige (CAC0B3#)
 */
 body {
     font-family: 'Noto Sans Thai Looped', sans-serif;
+    background-color: #CAC0B3 !important;
 }
 nav {
     font-family: 'Noto Sans Thai Looped', sans-serif;
 }
 .container{
     margin-top: 20px;
-}
-
-.container.row{
-    font-size: 20px;
 }
 
 .card-header strong {
@@ -37,8 +34,7 @@ nav {
 }
 
 .annonce-title h1, .annonce-title p{
-    color: white;
-    text-shadow: 3px 3px 3px rgba(0,0,0,0.5);
+    text-shadow: 3px;
     font-family: 'Noto Sans Thai Looped', sans-serif;
 }
 
@@ -117,7 +113,7 @@ h1.display-4 {
 }
 
 .car-cover-image strong{
-    color: #CAC0B3 !important;
+    color: #FF595A !important;
 }
 
 .footer{
@@ -129,4 +125,18 @@ h1.display-4 {
 
 .btn btn-outline-danger {
     font-size: 28px;
+}
+
+.card-title,
+.card-header{
+    color: #CAC0B3 !important;
+}
+
+.text-light {
+    margin-top: 20px !important;
+}
+.card-text img {
+    max-width: 64px !important;
+    max-height: 64px !important;
+    
 }

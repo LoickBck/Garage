@@ -143,7 +143,7 @@ class CarController extends AbstractController
         $car = $this->getDoctrine()->getRepository(Car::class)->find($carId);
     
         // Assurez-vous que la variable 'author' est correctement définie
-        $author = $car->getAuthor(); // Supposons que vous ayez une méthode getAuthor() dans votre entité Car
+        $author = $car->getId(); // Supposons que vous ayez une méthode getAuthor() dans votre entité Car
     
         return $this->render('car/show.html.twig', [
             'car' => $car,
